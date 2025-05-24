@@ -1,0 +1,54 @@
+<h2>📤 Envio de Imagens</h2>
+
+<p>
+  Envie uma imagem nos formatos <strong>JPG, PNG ou GIF</strong>, com tamanho máximo de <strong>2 MB</strong>.
+</p>
+
+<form id="uploadForm" enctype="multipart/form-data">
+  <label for="imageUpload">Selecione uma imagem:</label><br>
+  <input type="file" id="imageUpload" name="image" accept="image/png, image/jpeg, image/gif" required><br><br>
+
+  <button type="submit">Enviar Imagem</button>
+</form>
+
+<p id="feedback" style="color: red;"></p>
+
+<script>
+  const form = document.getElementById('uploadForm');
+  const input = document.getElementById('imageUpload');
+  const feedback = document.getElementById('feedback');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); // Impede envio imediato
+
+    const file = input.files[0];
+    const maxSize = 2 * 1024 * 1024; // 2 MB
+
+    // Validação
+    if (!file) {
+      feedback.textContent = "Por favor, selecione um arquivo.";
+      return;
+    }
+
+    if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
+      feedback.textContent = "Formato inválido. Envie JPG, PNG ou GIF.";
+      return;
+    }
+
+    if (file.size > maxSize) {
+      feedback.textContent = "Arquivo muito grande. O limite é 2 MB.";
+      return;
+    }
+
+    // Mensagem de envio
+    feedback.style.color = "blue";
+    feedback.textContent = "Enviando...";
+
+    // Simulação de envio (2 segundos)
+    setTimeout(() => {
+      feedback.style.color = "green";
+      feedback.textContent = "Imagem enviada com sucesso!";
+      form.reset();
+    }, 2000);
+  });
+</script>
